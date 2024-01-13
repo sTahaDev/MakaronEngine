@@ -13,7 +13,7 @@ public:
   void attachShader(const char *fileName, unsigned int shaderType);
   void link();
   void use();
-  void addUniform(const std::string &varName);
+  
   int getUniformId(const std::string &varName);
   void setFloat(int varName,int x,int y);
 

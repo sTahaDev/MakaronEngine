@@ -14,7 +14,7 @@ GameObject::GameObject(GLFWwindow *windoww)
     window = windoww;
 }
 
-void GameObject::create(char *fileName, float x, float y, int widthMesh, int heightMesh)
+void GameObject::create(std::string fileName, float x, float y, int widthMesh, int heightMesh)
 {
     position.x = x;
     position.y = y;
@@ -45,7 +45,6 @@ void GameObject::create(char *fileName, float x, float y, int widthMesh, int hei
     program.attachShader("../include/engine/gameobject/shaders/simplefs.glsl", GL_FRAGMENT_SHADER);
     program.link();
 
-    program.addUniform("projectionMatrix");
     unsigned int projectionMatrixLoc = program.getUniformId("projectionMatrix");
 
     if (projectionMatrixLoc == -1)
@@ -86,7 +85,7 @@ void GameObject::create(char *fileName, float x, float y, int widthMesh, int hei
 
     // Texture yükleme
     int width, height, nrChannels;
-    unsigned char *data = stbi_load(fileName, &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -111,10 +110,12 @@ void GameObject::render()
 }
 
 // Copy constructor eklenmiş hali
-GameObject::GameObject(const GameObject &other): window(other.window), position(other.position), startPosition(other.startPosition)
-{
+GameObject::GameObject(const GameObject &other)
+{   
     window = other.window;
     position = other.position;
     startPosition = other.startPosition;
+    VAO = other.VAO;
+    VBO = other.VBO;
+   
 }
-

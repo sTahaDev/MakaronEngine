@@ -23,7 +23,7 @@ Window::Window(char *title, int width, int height)
         glfwGetError(&error_str);
         std::cout << "Failed to create window, error: " << error_str << '\n';
     }
-
+    
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 }

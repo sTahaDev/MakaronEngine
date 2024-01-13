@@ -32,12 +32,6 @@ void ShaderProgram::link()
   }
 }
 
-void ShaderProgram::addUniform(const std::string &varName)
-{
-  m_UniformVars[varName] = glGetUniformLocation(m_programId, varName.c_str());
-  
-}
-
 int ShaderProgram::getUniformId(const std::string &varName)
 {
   return glGetUniformLocation(m_programId, varName.c_str());
