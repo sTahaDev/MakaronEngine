@@ -1,4 +1,4 @@
-#include "mesh.hpp"
+#include "gameobject.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -7,38 +7,42 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <engine/vector/vector.hpp>
 
-Mesh::Mesh(GLFWwindow *windoww)
+GameObject::GameObject(GLFWwindow *windoww)
 {
     window = windoww;
 }
 
-void Mesh::create(char *fileName, float x, float y, int widthMesh, int heightMesh)
+void GameObject::create(char *fileName, float x, float y, int widthMesh, int heightMesh)
 {
+    position.x = x;
+    position.y = y;
+    startPosition.x = x;
+    startPosition.y = y;
+
     stbi_set_flip_vertically_on_load(true);
     int windowWidth, windowHeight;
     glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
-    windowWidth = windowWidth/2;
-    windowHeight = windowHeight/2;
-
+    windowWidth = windowWidth / 2;
+    windowHeight = windowHeight / 2;
 
     float vertices[] = {
-        x, y + heightMesh, 0.0f,        
-        x, y, 0.0f,                      
-        x + widthMesh, y, 0.0f,            
-        x + widthMesh, y + heightMesh, 0.0f
-    };
+        x, y + heightMesh, 0.0f,
+        x, y, 0.0f,
+        x + widthMesh, y, 0.0f,
+        x + widthMesh, y + heightMesh, 0.0f};
 
     float texCoords[] = {
-        0.0f, 1.0f,  // sol üst köşe noktası
+        0.0f, 1.0f, // sol üst köşe noktası
         0.0f, 0.0f, // sol alt köşe noktası
         1.0f, 0.0f, // sağ alt köşe noktası
-        1.0f, 1.0f // sağ üst köşe noktası
-        
+        1.0f, 1.0f  // sağ üst köşe noktası
+
     };
 
-    program.attachShader("../include/Mesh/shaders/simplevs.glsl", GL_VERTEX_SHADER);
-    program.attachShader("../include/Mesh/shaders/simplefs.glsl", GL_FRAGMENT_SHADER);
+    program.attachShader("../include/engine/gameobject/shaders/simplevs.glsl", GL_VERTEX_SHADER);
+    program.attachShader("../include/engine/gameobject/shaders/simplefs.glsl", GL_FRAGMENT_SHADER);
     program.link();
 
     program.addUniform("projectionMatrix");
@@ -95,12 +99,22 @@ void Mesh::create(char *fileName, float x, float y, int widthMesh, int heightMes
     stbi_image_free(data);
 }
 
-void Mesh::render()
+void GameObject::render()
 {
 
     program.use();
 
     glBindVertexArray(VAO);
+    program.setFloat(0, position.x - startPosition.x, position.y - startPosition.y);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
+
+// Copy constructor eklenmiş hali
+GameObject::GameObject(const GameObject &other): window(other.window), position(other.position), startPosition(other.startPosition)
+{
+    window = other.window;
+    position = other.position;
+    startPosition = other.startPosition;
+}
+

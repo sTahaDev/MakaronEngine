@@ -15,8 +15,7 @@ public:
   void use();
   void addUniform(const std::string &varName);
   int getUniformId(const std::string &varName);
-  void setFloat(const std::string &varName, float Value);
-  void addTail(ShaderProgram &program, std::string direction, float lenght, float velocityX, float velocityY);
+  void setFloat(int varName,int x,int y);
 
 private:
   unsigned int m_programId;
@@ -26,6 +25,7 @@ private:
   int orderY;
   int orderLeft;
   int orderUp;
+  
 };
 
 #endif

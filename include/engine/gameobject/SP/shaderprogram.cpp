@@ -43,9 +43,9 @@ int ShaderProgram::getUniformId(const std::string &varName)
   return glGetUniformLocation(m_programId, varName.c_str());
 }
 
-void ShaderProgram::setFloat(const std::string &varName, float value)
+void ShaderProgram::setFloat(int varName,int x,int y)
 {
-  glUniform1f(m_UniformVars[varName], value);
+  glUniform3f(glGetUniformLocation(m_programId,"positionTranslate"),x,y,0.0f);
 }
 
 void ShaderProgram::use()
@@ -86,33 +86,7 @@ void ShaderProgram::attachShader(const char *fileName, unsigned int shaderType)
   glDeleteShader(shaderId);
 }
 
-void ShaderProgram::addTail(ShaderProgram &program, const std::string direction, float lenght, float velocityX, float velocityY)
-{ 
-  
-  if (direction == "right")
-  {
-    orderX += 1;
-    program.setFloat("uMoveX", velocityX + (orderX*lenght));
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-  }
-  else if (direction == "left")
-  {
-    orderLeft += 1;
-    program.setFloat("uMoveX", velocityX - (orderLeft*lenght));
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-  }
-  else if (direction == "down")
-  {
-    orderY += 1;
-    program.setFloat("uMoveY", velocityY - (orderY*lenght));
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-  }
-  else if(direction == "up"){
-    orderUp += 1;
-    program.setFloat("uMoveY", velocityY + (orderUp*lenght));
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-  }
-}
+
 
 std::string ShaderProgram::getShaderFromFile(const char *fileName)
 {
