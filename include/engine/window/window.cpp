@@ -6,8 +6,14 @@
 #include <iostream>
 #include <cstdlib>
 
-Window::Window(char *title, int width, int height)
+bool Input::getKeyDown(GLFWwindow *window,int key) {
+    
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
+Input::keyEngine Input::keyCode;
+Window::Window(const char *title, int width, int height)
 {   
+    
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -17,6 +23,7 @@ Window::Window(char *title, int width, int height)
 
     window = glfwCreateWindow(width, height, title, nullptr, nullptr);
     WindowId = window;
+    
     if (window == nullptr)
     {
         const char *error_str;
@@ -37,6 +44,8 @@ void Window::ClearScreen()
 {
     glClearColor(0.52f, 0.52f, 0.52f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    
 }
 
 void Window::Repeat()
