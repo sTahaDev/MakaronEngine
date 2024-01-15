@@ -8,23 +8,27 @@ int main(int argc, char **argv)
 {
     int windowWidth = 800;
     int windowHeight = 600;
-
+    
     Window window("Makaron Engine", windowWidth, windowHeight);
 
     GameObject box(window.WindowId);
     box.create(internalPath + "container.jpg", 100, 100, 200, 200);
 
     while (!window.WindowShouldClose())
-    {
+    {   
+        window.setFps(60);
         window.ClearScreen();
 
         box.render();
         
-
         if (Input::getKeyDown(window.WindowId, Input::keyCode.RIGHT))
         {
             box.position.x += 1;
         }
+        if(Input::getKeyDown(window.WindowId,Input::keyCode.LEFT)){
+            box.position.x -= 1;
+        }
+
         window.Repeat();
     }
 

@@ -60,9 +60,16 @@ public:
     void ClearScreen();
     void Repeat();
     void Terminate();
+    void setFps(const int fpsLimit);
+    double getFps();
 
 private:
     GLFWwindow *window;
+    double lastTime;
+    double deltaTime;
+    int frameCount;
+    double lastTime_getfps;
+    double isFpsLimit;
 };
 
 #endif
