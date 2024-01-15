@@ -14,9 +14,14 @@ int main(int argc, char **argv)
     GameObject box(window.WindowId);
     box.create(internalPath + "container.jpg", 100, 100, 200, 200);
 
+    
     while (!window.WindowShouldClose())
     {   
-        window.setFps(60);
+        double fps =  window.getFps();
+        if(fps != 0){
+            std::cout << fps << std::endl;
+        }
+
         window.ClearScreen();
 
         box.render();

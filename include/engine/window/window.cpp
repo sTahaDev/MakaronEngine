@@ -35,9 +35,10 @@ Window::Window(const char *title, int width, int height)
         glfwGetError(&error_str);
         std::cout << "Failed to create window, error: " << error_str << '\n';
     }
-
+    
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    glfwSwapInterval(0);
 }
 void Window::setFps(const int fpsLimit)
 {
@@ -79,6 +80,11 @@ double Window::getFps()
     }
     return 0;
 }
+
+void Window::setVsync(int set){
+    glfwSwapInterval(set);
+}
+
 void Window::ClearScreen()
 {
     glClearColor(0.52f, 0.52f, 0.52f, 1.0f);

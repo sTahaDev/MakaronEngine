@@ -62,6 +62,7 @@ public:
     void Terminate();
     void setFps(const int fpsLimit);
     double getFps();
+    void setVsync(int set);
 
 private:
     GLFWwindow *window;
